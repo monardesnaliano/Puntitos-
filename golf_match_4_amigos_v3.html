@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Golf Match 4 Amigos</title>
+<style>
+body{margin:0;background:#f6f7f3;color:#152016;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+header{position:sticky;top:0;background:#f6f7f3;border-bottom:1px solid #dfe5dc;padding:12px 14px;z-index:10}
+h1{font-size:20px;margin:0} h2{font-size:18px;margin:0 0 10px} h3{font-size:15px;margin:14px 0 8px;color:#667064}
+main{padding:14px;max-width:820px;margin:auto}
+.card{background:white;border:1px solid #dfe5dc;border-radius:16px;padding:14px;margin:0 0 14px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tabs{display:flex;gap:8px;margin-bottom:14px;position:sticky;top:53px;background:#f6f7f3;padding:8px 0;z-index:9}
+button{border:0;border-radius:12px;padding:11px 13px;font-size:15px;font-weight:700;background:#1f6f43;color:white}
+button.secondary,.tabs button{background:#e8ece5;color:#152016} .tabs button.active{background:#1f6f43;color:white}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .player{display:grid;grid-template-columns:1.5fr .7fr .8fr;gap:8px;margin-bottom:8px;align-items:end}
+label{font-size:12px;color:#667064;display:block;margin-bottom:4px}
+input,select{width:100%;font-size:16px;border:1px solid #dfe5dc;border-radius:12px;padding:10px;background:white;color:#152016;box-sizing:border-box}
+input[type=number]{text-align:center}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{border-bottom:1px solid #dfe5dc;padding:8px 4px;text-align:center} th:first-child,td:first-child{text-align:left}
+.hidden{display:none!important} .mini{font-size:12px;color:#667064} .scoreline{font-size:28px;font-weight:800;text-align:center;margin:8px 0}
+.pill,.adv{display:inline-block;border-radius:999px;background:#edf5ee;padding:4px 8px;font-size:12px;color:#194b2e}
+.summaryBox{display:grid;grid-template-columns:1fr 1fr;gap:10px} .bigStat{background:#edf5ee;border-radius:14px;padding:12px;text-align:center} .bigStat b{font-size:22px;display:block}
+.row{display:flex;gap:8px;align-items:center} .row>*{flex:1}
+@media(max-width:620px){.grid,.player,.summaryBox{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>Golf Match 4 Amigos</h1></header>
+<main>
+<div class="tabs">
+<button id="tabPartido" class="active" type="button">Partido</button>
+<button id="tabHoyo" type="button">Hoyo</button>
+<button id="tabResumen" type="button">Resumen</button>
+</div>
+
+<section id="pantallaPartido" class="card">
+<h2>Datos del partido</h2>
+<div class="grid">
+<div><label>Fecha</label><input id="fecha" type="date"></div>
+<div><label>Campo</label><input id="campo" placeholder="Ej: Hacienda Chicureo"></div>
+</div>
+
+<h3>Jugadores</h3>
+<div class="player"><div><label>Jugador 1</label><input id="nombre0" value="Jorge"></div><div><label>HCP</label><input id="hcp0" type="number" value="8"></div><div><label>Pareja</label><select id="equipo0"><option>A</option><option>B</option></select></div></div>
+<div class="player"><div><label>Jugador 2</label><input id="nombre1" value="Marco"></div><div><label>HCP</label><input id="hcp1" type="number" value="12"></div><div><label>Pareja</label><select id="equipo1"><option>A</option><option>B</option></select></div></div>
+<div class="player"><div><label>Jugador 3</label><input id="nombre2" value="Christian"></div><div><label>HCP</label><input id="hcp2" type="number" value="15"></div><div><label>Pareja</label><select id="equipo2"><option>B</option><option>A</option></select></div></div>
+<div class="player"><div><label>Jugador 4</label><input id="nombre3" value="Eduardo"></div><div><label>HCP</label><input id="hcp3" type="number" value="18"></div><div><label>Pareja</label><select id="equipo3"><option>B</option><option>A</option></select></div></div>
+
+<h3>Cancha: par e índice de ventaja</h3>
+<p class="mini">El índice de ventaja es el handicap/stroke index del hoyo, del 1 al 18.</p>
+<table><thead><tr><th>Hoyo</th><th>Par</th><th>Ventaja</th></tr></thead><tbody><tr><td>1</td><td><input id="par1" type="number" value="4"></td><td><input id="si1" type="number" value="1"></td></tr>
+<tr><td>2</td><td><input id="par2" type="number" value="4"></td><td><input id="si2" type="number" value="2"></td></tr>
+<tr><td>3</td><td><input id="par3" type="number" value="3"></td><td><input id="si3" type="number" value="3"></td></tr>
+<tr><td>4</td><td><input id="par4" type="number" value="5"></td><td><input id="si4" type="number" value="4"></td></tr>
+<tr><td>5</td><td><input id="par5" type="number" value="4"></td><td><input id="si5" type="number" value="5"></td></tr>
+<tr><td>6</td><td><input id="par6" type="number" value="4"></td><td><input id="si6" type="number" value="6"></td></tr>
+<tr><td>7</td><td><input id="par7" type="number" value="3"></td><td><input id="si7" type="number" value="7"></td></tr>
+<tr><td>8</td><td><input id="par8" type="number" value="5"></td><td><input id="si8" type="number" value="8"></td></tr>
+<tr><td>9</td><td><input id="par9" type="number" value="4"></td><td><input id="si9" type="number" value="9"></td></tr>
+<tr><td>10</td><td><input id="par10" type="number" value="4"></td><td><input id="si10" type="number" value="10"></td></tr>
+<tr><td>11</td><td><input id="par11" type="number" value="4"></td><td><input id="si11" type="number" value="11"></td></tr>
+<tr><td>12</td><td><input id="par12" type="number" value="3"></td><td><input id="si12" type="number" value="12"></td></tr>
+<tr><td>13</td><td><input id="par13" type="number" value="5"></td><td><input id="si13" type="number" value="13"></td></tr>
+<tr><td>14</td><td><input id="par14" type="number" value="4"></td><td><input id="si14" type="number" value="14"></td></tr>
+<tr><td>15</td><td><input id="par15" type="number" value="4"></td><td><input id="si15" type="number" value="15"></td></tr>
+<tr><td>16</td><td><input id="par16" type="number" value="3"></td><td><input id="si16" type="number" value="16"></td></tr>
+<tr><td>17</td><td><input id="par17" type="number" value="5"></td><td><input id="si17" type="number" value="17"></td></tr>
+<tr><td>18</td><td><input id="par18" type="number" value="4"></td><td><input id="si18" type="number" value="18"></td></tr></tbody></table>
+
+<div class="row" style="margin-top:12px">
+<button id="guardarJugar" type="button">Guardar y jugar</button>
+<button id="borrar" class="secondary" type="button">Borrar todo</button>
+</div>
+</section>
+
+<section id="pantallaHoyo" class="hidden">
+<div class="card">
+<div class="row"><button id="anterior" class="secondary" type="button">← Anterior</button><div style="text-align:center"><b id="tituloHoyo"></b><br><span id="metaHoyo" class="mini"></span></div><button id="siguiente" class="secondary" type="button">Siguiente →</button></div>
+<div id="lineaMatch" class="scoreline"></div>
+</div>
+<div class="card"><h2>Scores gross</h2><table><thead><tr><th>Jugador</th><th>Gross</th><th>Ventaja</th><th>Neto</th></tr></thead><tbody id="filasScores"></tbody></table></div>
+<div id="tarjetaGreenie" class="card hidden"><h2>Greenie</h2><label>Más cerca en green</label><select id="greenie"></select><p><span id="estadoGreenie" class="pill"></span></p></div>
+<div class="card"><h2>Resultado del hoyo</h2><table><tbody id="filasPuntos"></tbody></table></div>
+</section>
+
+<section id="pantallaResumen" class="hidden">
+<div class="card"><h2>Resumen final</h2><div class="summaryBox"><div class="bigStat"><span class="mini">Match</span><b id="matchFinal"></b></div><div class="bigStat"><span class="mini">Campo</span><b id="campoFinal"></b></div></div></div>
+<div class="card"><h2>Totales jugadores</h2><table><thead><tr><th>Jugador</th><th>Gross</th><th>Neto</th><th>HCP rel.</th></tr></thead><tbody id="jugadoresFinal"></tbody></table></div>
+<div class="card"><h2>Detalle hoyo a hoyo</h2><table><thead><tr><th>Hoyo</th><th>Pts A</th><th>Pts B</th><th>Dif. acum.</th></tr></thead><tbody id="hoyosFinal"></tbody></table></div>
+</section>
+</main>
+
+<script>
+var hoyoActual = 1;
+var jugadores = [
+ {nombre:"Jorge",hcp:8,equipo:"A"},
+ {nombre:"Marco",hcp:12,equipo:"A"},
+ {nombre:"Christian",hcp:15,equipo:"B"},
+ {nombre:"Eduardo",hcp:18,equipo:"B"}
+];
+var hoyos = [];
+for(var i=0;i<18;i++) hoyos.push({par:[4,4,3,5,4,4,3,5,4,4,4,3,5,4,4,3,5,4][i],si:i+1,gross:["","","",""],greenie:"none"});
+var campo="", fecha="";
+
+function el(id){return document.getElementById(id);}
+function texto(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function cargar(){
+ fecha = new Date().toISOString().slice(0,10);
+ try{
+  var guardado = localStorage.getItem("golf_match_v3");
+  if(guardado){
+    var d = JSON.parse(guardado);
+    if(d.jugadores) jugadores=d.jugadores;
+    if(d.hoyos) hoyos=d.hoyos;
+    if(d.hoyoActual) hoyoActual=d.hoyoActual;
+    campo=d.campo||""; fecha=d.fecha||fecha;
+  }
+ }catch(e){}
+ el("fecha").value=fecha; el("campo").value=campo;
+ for(var i=0;i<4;i++){el("nombre"+i).value=jugadores[i].nombre; el("hcp"+i).value=jugadores[i].hcp; el("equipo"+i).value=jugadores[i].equipo;}
+ for(var h=1;h<=18;h++){el("par"+h).value=hoyos[h-1].par; el("si"+h).value=hoyos[h-1].si;}
+}
+
+function guardar(){
+ fecha=el("fecha").value; campo=el("campo").value;
+ for(var i=0;i<4;i++) jugadores[i]={nombre:el("nombre"+i).value||("Jugador "+(i+1)),hcp:Number(el("hcp"+i).value||0),equipo:el("equipo"+i).value};
+ for(var h=1;h<=18;h++){hoyos[h-1].par=Number(el("par"+h).value||4); hoyos[h-1].si=Number(el("si"+h).value||h);}
+ try{localStorage.setItem("golf_match_v3",JSON.stringify({fecha:fecha,campo:campo,jugadores:jugadores,hoyos:hoyos,hoyoActual:hoyoActual}));}catch(e){}
+}
+
+function guardarScores(){
+ var h=hoyoActual-1;
+ for(var i=0;i<4;i++){if(el("gross"+i)) hoyos[h].gross[i]=el("gross"+i).value;}
+ if(el("greenie")) hoyos[h].greenie=el("greenie").value;
+ guardar();
+}
+
+function mostrar(pantalla){
+ el("pantallaPartido").classList.add("hidden"); el("pantallaHoyo").classList.add("hidden"); el("pantallaResumen").classList.add("hidden");
+ el("tabPartido").classList.remove("active"); el("tabHoyo").classList.remove("active"); el("tabResumen").classList.remove("active");
+ if(pantalla=="partido"){el("pantallaPartido").classList.remove("hidden"); el("tabPartido").classList.add("active");}
+ if(pantalla=="hoyo"){guardar(); el("pantallaHoyo").classList.remove("hidden"); el("tabHoyo").classList.add("active"); dibujarHoyo();}
+ if(pantalla=="resumen"){guardarScores(); el("pantallaResumen").classList.remove("hidden"); el("tabResumen").classList.add("active"); dibujarResumen();}
+}
+
+function minHcp(){var m=999; for(var i=0;i<4;i++) if(jugadores[i].hcp<m) m=jugadores[i].hcp; return m;}
+function hcpRel(i){return Math.max(0,jugadores[i].hcp-minHcp());}
+function ventaja(i,h){var dif=hcpRel(i), base=Math.floor(dif/18), rem=dif%18, si=hoyos[h].si; return base + (si<=rem?1:0);}
+function neto(i,h){var g=Number(hoyos[h].gross[i]); return g?g-ventaja(i,h):"";}
+
+function carryGreenieAntes(hIndex){
+ var carry=1;
+ for(var h=0;h<hIndex;h++){
+  if(hoyos[h].par!=3) continue;
+  if(hoyos[h].greenie!="none"){
+   var gi=Number(hoyos[h].greenie), g=Number(hoyos[h].gross[gi]);
+   if(g && g<=hoyos[h].par) carry=1; else carry++;
+  } else carry++;
+ }
+ return carry;
+}
+
+function puntosHoyo(h){
+ var A=0,B=0,rows=[], nets=[];
+ function add(label,pts,w){if(w=="A")A+=pts; if(w=="B")B+=pts; rows.push({label:label,pts:pts,w:w});}
+ for(var i=0;i<4;i++) nets.push(neto(i,h));
+ if(nets[0]!==""&&nets[1]!==""&&nets[2]!==""&&nets[3]!==""){
+  var a=[],b=[];
+  for(var i=0;i<4;i++){if(jugadores[i].equipo=="A")a.push(i); else b.push(i);}
+  var bestA=Math.min(nets[a[0]],nets[a[1]]), bestB=Math.min(nets[b[0]],nets[b[1]]);
+  add("Mejor score neto",2,bestA<bestB?"A":bestB<bestA?"B":"Empate");
+  var worstA=Math.max(nets[a[0]],nets[a[1]]), worstB=Math.max(nets[b[0]],nets[b[1]]);
+  add("Mejor peor score neto",1,worstA<worstB?"A":worstB<worstA?"B":"Empate");
+  var sumA=nets[a[0]]+nets[a[1]], sumB=nets[b[0]]+nets[b[1]];
+  add("Mejor suma neta",1,sumA<sumB?"A":sumB<sumA?"B":"Empate");
+  for(var i=0;i<4;i++){var g=Number(hoyos[h].gross[i]); if(g && g<hoyos[h].par) add("Birdie gross: "+jugadores[i].nombre,1,jugadores[i].equipo);}
+  if(hoyos[h].par==3){
+   var carry=carryGreenieAntes(h), gw=hoyos[h].greenie;
+   if(gw!="none"){var gi=Number(gw), gg=Number(hoyos[h].gross[gi]); if(gg && gg<=hoyos[h].par) add("Greenie acumulado",carry,jugadores[gi].equipo); else rows.push({label:"Greenie",pts:carry,w:"Se acumula"});}
+   else rows.push({label:"Greenie",pts:carry,w:"Se acumula"});
+  }
+ }
+ return {A:A,B:B,diff:A-B,rows:rows};
+}
+
+function diffAcum(hasta){var d=0; for(var h=0;h<=hasta;h++) d+=puntosHoyo(h).diff; return d;}
+function matchTxt(d){if(d>0)return "Pareja A +"+d; if(d<0)return "Pareja B +"+Math.abs(d); return "Empatado";}
+
+function dibujarHoyo(){
+ var h=hoyoActual-1;
+ el("tituloHoyo").innerHTML="Hoyo "+hoyoActual;
+ el("metaHoyo").innerHTML="Par "+hoyos[h].par+" · Ventaja "+hoyos[h].si;
+ el("lineaMatch").innerHTML=matchTxt(diffAcum(h));
+ var html="";
+ for(var i=0;i<4;i++){
+  var v=ventaja(i,h), n=neto(i,h);
+  html += '<tr><td><b>'+texto(jugadores[i].nombre)+'</b><br><span class="mini">Pareja '+jugadores[i].equipo+'</span></td><td><input id="gross'+i+'" type="number" value="'+(hoyos[h].gross[i]||'')+'"></td><td>'+(v?'<span class="adv">-'+v+'</span>':'<span class="mini">0</span>')+'</td><td><b>'+n+'</b></td></tr>';
+ }
+ el("filasScores").innerHTML=html;
+ for(var i=0;i<4;i++) el("gross"+i).oninput=function(){guardarScores(); dibujarHoyo();};
+ if(hoyos[h].par==3){
+  el("tarjetaGreenie").classList.remove("hidden");
+  var opts='<option value="none">Nadie / se acumula</option>';
+  for(var i=0;i<4;i++) opts+='<option value="'+i+'">'+texto(jugadores[i].nombre)+'</option>';
+  el("greenie").innerHTML=opts; el("greenie").value=hoyos[h].greenie||"none";
+  el("greenie").onchange=function(){guardarScores(); dibujarHoyo();};
+  el("estadoGreenie").innerHTML="Greenie actual: "+carryGreenieAntes(h)+" punto(s)";
+ } else el("tarjetaGreenie").classList.add("hidden");
+ var p=puntosHoyo(h);
+ if(p.rows.length==0) el("filasPuntos").innerHTML='<tr><td class="mini">Ingresa los 4 scores para calcular.</td></tr>';
+ else {
+  var pr="";
+  for(var r=0;r<p.rows.length;r++) pr+='<tr><td>'+texto(p.rows[r].label)+'</td><td>'+p.rows[r].pts+'</td><td><b>'+p.rows[r].w+'</b></td></tr>';
+  pr+='<tr><td><b>Total hoyo</b></td><td colspan="2"><b>A '+p.A+' / B '+p.B+'</b></td></tr>';
+  el("filasPuntos").innerHTML=pr;
+ }
+}
+
+function dibujarResumen(){
+ el("matchFinal").innerHTML=matchTxt(diffAcum(17)); el("campoFinal").innerHTML=texto(campo||"Sin campo");
+ var html="";
+ for(var i=0;i<4;i++){var gr=0,ne=0; for(var h=0;h<18;h++){var g=Number(hoyos[h].gross[i]); if(g){gr+=g; ne+=g-ventaja(i,h);}} html+='<tr><td>'+texto(jugadores[i].nombre)+'</td><td>'+gr+'</td><td>'+ne+'</td><td>'+hcpRel(i)+'</td></tr>';}
+ el("jugadoresFinal").innerHTML=html;
+ var d=0, hh="";
+ for(var h=0;h<18;h++){var p=puntosHoyo(h); d+=p.diff; hh+='<tr><td>'+(h+1)+'</td><td>'+p.A+'</td><td>'+p.B+'</td><td>'+matchTxt(d)+'</td></tr>';}
+ el("hoyosFinal").innerHTML=hh;
+}
+
+window.onload=function(){
+ cargar();
+ el("guardarJugar").onclick=function(){guardar(); mostrar("hoyo");};
+ el("tabPartido").onclick=function(){guardarScores(); mostrar("partido");};
+ el("tabHoyo").onclick=function(){guardar(); mostrar("hoyo");};
+ el("tabResumen").onclick=function(){guardarScores(); mostrar("resumen");};
+ el("anterior").onclick=function(){guardarScores(); if(hoyoActual>1)hoyoActual--; guardar(); dibujarHoyo();};
+ el("siguiente").onclick=function(){guardarScores(); if(hoyoActual<18)hoyoActual++; guardar(); dibujarHoyo();};
+ el("borrar").onclick=function(){if(confirm("¿Borrar partido completo?")){localStorage.removeItem("golf_match_v3"); location.reload();}};
+};
+</script>
+</body>
+</html>
